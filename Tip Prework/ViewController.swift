@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var billAmountTextField: UITextField!
     @IBOutlet weak var tipPercentageLabel: UILabel!
@@ -19,6 +19,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        billAmountTextField.becomeFirstResponder()
+        billAmountTextField.delegate = self
+        
     }
     
     @IBAction func onTap(_ sender: Any) {
@@ -34,7 +38,8 @@ class ViewController: UIViewController {
         let total = bill + tip
         
         // Update the tip and total labels
-        tipPercentageLabel.text = String(format: "$%.2f", tip)
+        tipPercentageLabel.text =
+            String(format: "$%.2f", tip)
         totalLabel.text = String(format: "$%.2f", total)
         
     }
@@ -50,4 +55,27 @@ class ViewController: UIViewController {
         }
         clear()
     }
+    
+    // UITextFieldDelegate Methods
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        billAmountTextField.resignFirstResponder()
+    }
+    
+    // Locale-specific currency attempt
+   /* func convertCurrencyToDouble(input: String) -> Double? {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.locale = Locale.current
+        
+        return numberFormatter.number(from: input)?.doubleValue
+    }
+    
+    func convertDoubleToCurrency(amount: Double) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.locale = Locale.current
+        
+        return numberFormatter.string(from: NSNumber(value: amount))!
+    } */
 }
